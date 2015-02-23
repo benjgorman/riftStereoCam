@@ -1,0 +1,4 @@
+ofxOpenCv
+ofxCv
+ofxMacamPs3Eye
+ofxOculusDK2MattBLatest
