@@ -67,4 +67,5 @@ class ofApp : public ofBaseApp{
     
     ofxCv::ContourFinder contourFinder;
     
+    ofVideoGrabber macbook;
 };

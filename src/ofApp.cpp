@@ -61,6 +61,11 @@ void ofApp::setup()
         
     }
     
+    if (camCounter == 0)
+    {
+        macbook.initGrabber(640, 480);
+    }
+    
     
     for(int i = 0; i < 20; i++){
         DemoSphere d;
@@ -104,6 +109,8 @@ void ofApp::update()
         if(cameras.size() == 0)
         {
             ofDrawBitmapString("No PS3Eye found.", 20, 20);
+            
+            macbook.update();
         }
     }
     
@@ -180,13 +187,12 @@ void ofApp::draw()
 //--------------------------------------------------------------
 void ofApp::drawLeftEyeScene()
 {
-    ofPushMatrix();
-    ofDrawPlane(-600, -400, 1200, 800);
-    ofScale(-1,1,1);
-    ofRotate(90, 0, 0, -1);
-    
-    if (camCounter>0)
+    if (camCounter == 2)
     {
+        ofPushMatrix();
+        ofDrawPlane(-600, -400, 1200, 800);
+        ofScale(-1,1,1);
+        ofRotate(90, 0, 0, -1);
         
         for (int i = 0; i < cameras.size(); i++)
         {
@@ -196,21 +202,36 @@ void ofApp::drawLeftEyeScene()
             ofTranslate(1, 1, 1);
         }
     }
-    else
+    else if (camCounter == 1)
     {
+        ofPushMatrix();
+        ofDrawPlane(-600, -400, 1200, 800);
+        ofScale(-1,1,1);
+        ofRotate(90, 0, 0, -1);
+        
+        for (int i = 0; i < cameras.size(); i++)
+        {
+            ofTranslate(1, -1, 100);
+        
+            cameras[0]->draw(-725, -543.75, 1450, 1087.5);
+            ofTranslate(1, 1, 1);
+        }
+    }
+    else if (camCounter == 0)
+    {
+        ofPushMatrix();
+        ofDrawPlane(-600, -400, 1200, 800);
+        ofScale(1,1,1);
+        ofRotate(180, 0, 0, -1);
         
         ofTranslate(1, 1, 100);
-        ofDrawPlane(-600, -400, 1200, 800);
+        macbook.draw(-600, -400, 1200, 1000);
         ofTranslate(1, 1, 1);
-        
     }
     
-    
     ofPopMatrix();
-    
     ofPushStyle();
     ofNoFill();
-    
     
     //billboard and draw the mouse
     if(oculusRift.isSetup()){
@@ -232,33 +253,49 @@ void ofApp::drawLeftEyeScene()
 //--------------------------------------------------------------
 void ofApp::drawRightEyeScene()
 {
-    ofPushMatrix();
-    ofDrawPlane(-600, -500, 1200, 800);
-    ofScale(-1,1,1);
     
-    ofRotate(-90, 0, 0, -1);
-    
-    ofTexture texture;
-    
-    if (camCounter>0)
+    if (camCounter == 2)
     {
+        ofPushMatrix();
+        ofDrawPlane(-600, -500, 1200, 1000);
+        ofScale(-1,1,1);
+        ofRotate(90, 0, 0, -1);
+        
         for (int i = 0; i < cameras.size(); i++)
         {
             ofTranslate(1, 1, 100);
-            
-            
             cameras[1]->draw(-600, -500, 1200, 1000);
             ofTranslate(1, 1, 1);
         }
     }
-    else
+    else if (camCounter == 1)
     {
+        ofPushMatrix();
+        //ofDrawPlane(-600, -500, 1200, 1000);
+        ofScale(-1,1,1);
+        ofRotate(90, 0, 0, -1);
         
-        ofDrawPlane(-600, -500, 1200, 800);
+        for (int i = 0; i < cameras.size(); i++)
+        {
+            ofTranslate(1, 1, 100);
+            cameras[0]->draw(-600, -500, 1200, 900);
+            ofTranslate(1, 1, 1);
+        }
     }
+    else if (camCounter == 0)
+    {
+        ofPushMatrix();
+        ofDrawPlane(-600, -400, 1200, 800);
+        ofScale(1,1,1);
+        ofRotate(180, 0, 0, -1);
+        
+        ofTranslate(1, 1, 100);
+        macbook.draw(-600, -500, 1200, 1000);
+        ofTranslate(1, 1, 1);
+    }
+
     
     ofPopMatrix();
-    
     ofPushStyle();
     ofNoFill();
     
